@@ -1,20 +1,19 @@
 const mysql = require("mysql");
 
 // Connect to the Legacy DB
-const connectDB = async () => {
-  try {
-    const conn = await mysql.createConnection({
-      host: "blitz.cs.niu.edu",
-      user: "student",
-      password: "student",
-      database: "csci467",
+const connection = mysql.createConnection({
+  host: "blitz.cs.niu.edu",
+  user: "student",
+  password: "student",
+  database: "csci467",
+});
+
+connection.connect();
+
+module.exports = {
+  getAllItems: async (result) => {
+    await connection.query("SELECT * FROM parts", (err, rows) => {
+      result(rows);
     });
-
-    conn.connect();
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
+  },
 };
-
-module.exports = connectDB;
