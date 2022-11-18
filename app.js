@@ -1,14 +1,12 @@
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
-const connectDB = require("./config/db");
 
 // Load config file
 dotenv.config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 3000;
 
 // Connect to legacy database
-connectDB();
 
 const app = express();
 // Set static folder (for css)
