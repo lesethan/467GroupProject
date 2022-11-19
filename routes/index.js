@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const parts = require("../database/innerdb"); // 
 
 // Homepage Route
 router.get("/", (req, res) => {
   res.render("index");
 });
 
-const parts = require("../config/innerdb");
+
 // Backend Data Testing Route
 router.get("/test", (req, res) => {
   try {
