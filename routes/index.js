@@ -6,12 +6,13 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-const parts = require("../config/db");
+const parts = require("../config/innerdb");
 // Backend Data Testing Route
 router.get("/test", (req, res) => {
   try {
     parts.getAllItems((list) => {
-      res.render("test", { all: list });
+      res.render("test", { 
+        all: list });
     });
   } catch (error) {
     console.log(error);
