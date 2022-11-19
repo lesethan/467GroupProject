@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Catalog</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/2337335750.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body> 
+      <nav>
+          <div class="menu">
+            <div class="logo">
+              <a href="/"
+                ><img style="width: 50%" src="img/motor-medic-logo.png"
+              /></a>
+            </div>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/catalog">Catalog</a></li>
+              <li><a href="cart.html">Cart</a></li>
+              <li><a href="workstation.html">Workstation</a></li>
+              <li><a href="receiving.html">Receiving</a></li>
+              <li><a href="admin.html">Admin</a></li>
+            </ul>
+          </div>
+      </nav>
+    <header>
+     
+      </div>
+    </header>
+    <main>
+      <div class="small-container">
+          <h2>Featured Products:</h2>
+        <div class="row">
+          <% all.forEach((part) => { %>
+          <div class="col-1">
+            <img src="<%= part.pictureURL %>" />
+            <h4><%= part.description %></h4>
+            <div class="rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star-half-stroke"></i>
+            </div>
+            <p>$<%= part.price %></p>
+          </div>
+          <% }) %>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

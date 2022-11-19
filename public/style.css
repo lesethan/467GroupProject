@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-      <style>
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 ::selection {
   color: #c9af98;
@@ -16,7 +11,7 @@
 }
 nav {
   position: fixed;
-  background: #000000;
+  background: #1b1b1b;
   width: 100%;
   padding: 10px 0;
   z-index: 12;
@@ -29,9 +24,10 @@ nav .menu {
   justify-content: space-between;
   padding: 0 20px;
 }
-.menu .logo a {
+.menu .logo {
   text-decoration: none;
   color: #c9af98;
+  padding-top: 7px;
 }
 .menu ul {
   display: inline-flex;
@@ -46,7 +42,7 @@ nav .menu {
 .menu ul li a {
   text-decoration: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   padding: 8px 15px;
   border-radius: 5px;
@@ -57,7 +53,7 @@ nav .menu {
   color: black;
 }
 .img {
-  background-image: url("img/audi-r8.jpg");
+  background-image: url('./img/audi-r8.jpg');
   width: 100%;
   height: 100vh;
   background-size: cover;
@@ -65,12 +61,13 @@ nav .menu {
   position: relative;
 }
 .img::before {
-  content: "";
+  content: '';
   position: absolute;
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.4);
 }
+
 .center {
   position: absolute;
   top: 52%;
@@ -118,40 +115,41 @@ nav .menu {
 .center .btns button:last-child {
   background: white;
   color: black;
-}</style>
-         
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!------<title> Website Home Page </title>------>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
-   </head>
-    
-    
-<body>
-  <nav>
-    <div class="menu">
-      <div class="logo">
-        <a href="index.html"><img style="width: 50%;" src="img/motor-medic-logo.png"></a>
-      </div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="catalog.html">Catalog</a></li>
-        <li><a href="cart.html">Cart</a></li>
-        <li><a href="workstation.html">Workstation</a></li>
-        <li><a href="receiving.html">Receiving</a></li>
-        <li><a href="admin.html">Admin</a></li>
-      </ul>
-    </div>
-  </nav>
-  <div class="img"></div>
-  <div class="center">
-    <div class="title">Premium Auto Parts</div>
-    <div class="sub_title">Parts Shipped Next Day!</div>
-    <div class="btns">
-      <button>New Products</button>
-      <button>Subscribe</button>
-    </div>
-  </div>
-</body>
-</html>
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.col-1 {
+  flex-basis: 33%;
+  padding: 10px;
+  min-width: 200px;
+  padding-bottom: 100px;
+  padding-top: 100px;
+}
+
+.container {
+  max-width: 1024px;
+  margin: auto;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.small-container {
+  max-width: 1024px;
+  margin: auto;
+  padding-top: 200px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.col-1 img {
+  height: 120%;
+  padding-bottom: 10px;
+  width: 75%;
+  margin-left: 40px;
+}
