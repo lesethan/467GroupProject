@@ -1,0 +1,27 @@
+<%- include ('partials/header') %>
+    <main>
+      <div class="small-container">
+          <h2>Featured Products:</h2>
+        <div class="row">
+          <% all.forEach((part) => { %>
+          <div class="col-1">
+            <img src="<%= part.pictureURL %>" />
+            <h4><%= part.description %></h4>
+            <div class="rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star-half-stroke"></i>
+            </div>
+            <p>$<%= part.price %></p>
+          </div>
+          <% }) %>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
+<%- include ('partials/footer') %>

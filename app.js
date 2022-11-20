@@ -12,7 +12,7 @@ const app = express();
 // Set static folder (for css)
 app.use(express.static(path.join(__dirname, "public")));
 
-// Set the view engine to ejs for templates
+// Set the view engine to ejs for send data to the front end
 app.set("view engine", "ejs");
 
 app.use("/", require("./routes/index"));
