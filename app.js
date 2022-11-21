@@ -1,4 +1,6 @@
 const express = require("express");
+const cookieParser = require('cookie-parser')
+const sessions = require('express-session')
 const path = require("path");
 const dotenv = require("dotenv");
 
@@ -6,9 +8,26 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 3000;
 
-// Connect to legacy database
-
+// Initialize express app
 const app = express();
+
+// Express session middleware
+const dayInMilliseconds = 1000 * 60 * 60 * 24;
+
+app.use(sessions({
+  secret: "maybethisshouldgoinconfig",
+  saveUninitialized: true,
+  cookie: { maxAge: dayInMilliseconds },
+  resave: false
+}))
+
+// HTTP form parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+// Cookie parser middleware
+app.use(cookieParser());
+
 // Set static folder (for css)
 app.use(express.static(path.join(__dirname, "public")));
 

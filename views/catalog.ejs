@@ -7,6 +7,7 @@
           <div class="col-1">
             <img src="<%= part.pictureURL %>" />
             <h4><%= part.description %></h4>
+            <h5>In Stock: <%= part.quantity %></h5>
             <div class="rating">
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -15,6 +16,11 @@
               <i class="fa-regular fa-star-half-stroke"></i>
             </div>
             <p>$<%= part.price %></p>
+
+            <form action="/addtocart/<%= part.number %>" method="post">
+              <input type="text" name="quantity" placeholder="Select Quantity">
+              <button type="submit" name="submit">Add to Cart</button>
+            </form>
           </div>
           <% }) %>
 

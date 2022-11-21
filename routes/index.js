@@ -1,6 +1,10 @@
 const express = require("express");
+const { cartExists, addToCart, createCart, getCart, removeFromCart } = require("../database/innerdb");
 const router = express.Router();
 const parts = require("../database/innerdb"); // Used to call functions using the DB
+
+// let session; // Used to hold session data
+// let Cart = require('../database/cart')
 
 // Homepage Route
 router.get("/", (req, res) => {
@@ -8,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 
-// Catalog Page Route
+// Catalog Page GET Route
 router.get("/catalog", (req, res) => {
   try {
     parts.getAllItems((list) => {
@@ -21,17 +25,51 @@ router.get("/catalog", (req, res) => {
   }
 });
 
-// Backend Data Testing Route
-router.get("/test", (req, res) => {
+// "Add to Cart" POST Route on the Catalog Page
+router.post('/addtocart/:number', (req, res) => {
+  // Check if cart exists, if it doesn't then create one
+  let promise = cartExists(req.session.id)
+                .then((result) => {
+                  if (!result) createCart(req.session.id)
+                });
+  addToCart(req.session.id, req.params.number, req.body.quantity);
+  res.redirect("/catalog");
+}) 
+
+// "Remove from Cart" POST Route on the Catalog Page
+router.post('/removefromcart/:number', (req, res) => {
+  removeFromCart(req.session.id, req.params.number)
+  res.redirect("/cart");
+})
+// Cart page GET Route
+router.get("/cart", (req, res) => {
   try {
-    parts.getAllItems((list) => {
-      res.render("test", { 
-        all: list });
-    });
+    getCart(req.session.id).then((result) => {
+      if (!result) {
+        console.log("No cart");
+      } else {
+        res.render("cart", { all: result})
+      }
+    })
   } catch (error) {
     console.log(error);
     process.exit(1);
   }
 });
 
+// Backend Data Testing Route
+router.get("/test", (req, res) => {
+  try {
+    getCart(req.session.id).then((result) => {
+      if (!result) {
+        console.log("No cart");
+      } else {
+        res.render("test", { all: result})
+      }
+    })
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+});
 module.exports = router;
