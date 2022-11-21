@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Open+Sans:wght@300&family=Source+Serif+Pro&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+
 ::selection {
   color: #c9af98;
   background: #c9af98;
@@ -53,7 +55,7 @@ nav .menu {
   color: black;
 }
 .img {
-  background: url(./img/header-pic.jpg);
+  background: url(./img/audi-r8.jpg);
   width: 100%;
   height: 100vh;
   background-size: cover;
@@ -117,6 +119,32 @@ nav .menu {
   color: black;
 }
 
+.small-container {
+  max-width: 1125px;
+  margin: auto;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 0px;
+}
+.title {
+  text-align: center;
+  margin: 0 auto 30px;
+  position: relative;
+  line-height: 60px;
+  color: #555;
+}
+
+.title::after {
+  content: '';
+  background: #e20909;
+  width: 80px;
+  height: 5px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .row {
   display: flex;
   align-items: center;
@@ -125,31 +153,61 @@ nav .menu {
 }
 
 .col-1 {
-  flex-basis: 33%;
-  padding: 10px;
+  flex-basis: 22%;
+  padding: 40px;
   min-width: 200px;
-  padding-bottom: 100px;
-  padding-top: 100px;
+  margin-bottom: 30px;
+  padding-top: 70px;
+  transition: transform 0.5s;
 }
 
-.container {
-  max-width: 1024px;
-  margin: auto;
-  padding-right: 25px;
-  padding-left: 25px;
-}
-
-.small-container {
-  max-width: 1024px;
-  margin: auto;
-  padding-top: 200px;
-  padding-left: 25px;
-  padding-right: 25px;
+.rating {
+  color: #ff523b;
 }
 
 .col-1 img {
-  height: 120%;
-  padding-bottom: 10px;
-  width: 75%;
-  margin-left: 40px;
+  height: 113px;
+  width: 150px;
+  margin-bottom: 40px;
+}
+.col-1 h3 {
+  color: #1b1b1b;
+}
+.col-1 h4 {
+  font-size: 12px;
+  color: rgb(151, 147, 147);
+  padding-bottom: 8px;
+}
+
+.col-1:hover {
+  transform: translateY(-6px);
+}
+
+header {
+  height: 100px;
+  background-color: none;
+}
+.catalog-image {
+  height: 450px;
+  width: 100%;
+}
+
+.catalog-image img {
+  width: 1024px;
+  height: 100%;
+}
+.header-text {
+  margin-top: 167px;
+  height: 500px;
+}
+.header-text h1 {
+  color: #1b1b1b;
+  margin-left: 700px;
+  font-size: 70px;
+  padding-bottom: 25px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.header-text h4 {
+  color: #2b2b2b;
 }
