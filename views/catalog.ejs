@@ -18,10 +18,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
 
-  <body>
+  <body>   
     <header>
       <nav>
-        <div class="container">
           <div class="menu">
             <div class="logo">
               <a href="/"
@@ -37,33 +36,27 @@
               <li><a href="admin.html">Admin</a></li>
             </ul>
           </div>
-        </div>
       </nav>
     </header>
 
-    <!---       <header>
-      <div class="catalog-image">
-       <img src="img/catalog.jpg" >
+    <section class="home">
+      <div class="home-text">
+        <h1>Parts you can trust.</h1>
+        <h4>Save 10% off your first purchase when you sign up for emails!</h4>
       </div>
-      <div class="header-text">
-      <h1>Parts you can trust.</h1>
-      <h4>Save 10% off your first purchase when you sign up for emails!</h4>
-    </div>
-    </header> -->
+    </section>
+
     <main>
-      <div class="small-container">
-        <h2 class="title">All Products:</h2>
+      <div class="container">
+        <h2 class="cat-title">All Products:</h2>
         <div class="row">
-          <% var count = 0; %> 
-          <% var index = 1; %> 
-          <% var times = 0; %>
-          <% times = index * 12; %>
           <% all.forEach((part) => { %>
-            <%  %>
-              <%  %> 
-          <% count = count + 1; %>
           <div class="col-1">
+            <div class="overlay">
+              <div class="product-pic">
             <img src="<%= part.pictureURL %>" />
+          </div>
+            </div>
             <h3><%= part.description %></h3>
             <h4>In Stock: <%= part.number %></h4>
             <div class="rating">
@@ -74,17 +67,17 @@
               <i class="fa-regular fa-star-half-stroke"></i>
             </div>
             <p>$<%= part.price %></p>
+            <ul class="cart-icon">
+              <li class="li2"><i class="fas fa-cart-plus"></i></li>
+            </ul>
           </div>
-          <% if (count == 12) { }%>
-          <div class="page-btn">
-            <span>1</span>
-            <span>2</span>
-            <span>3</span>
-            <span>4</span>
-            <span>&#8594</span>
-          </div>
-          <% %>
           <% }) %>
+          <section class="pages">
+            <div class="container">
+              <span>1</span> <span>2</span> <span>3</span> <span>4</span>
+              <span>&#8594</i></span>
+            </div>
+          </section>
         </div>
       </div>
 
