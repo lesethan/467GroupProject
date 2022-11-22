@@ -212,6 +212,7 @@ nav .menu {
   width: 200px;
   object-fit: cover;
 }
+
 .col-1 {
   margin-right: 2rem;
 }
@@ -237,6 +238,7 @@ nav .menu {
   display: none;
   margin-left: 17%;
 }
+
 .col-1 .icons {
   position: sticky;
   left: 55%;
@@ -247,6 +249,7 @@ nav .menu {
   align-items: center;
   list-style: none;
 }
+
 .col-1 .icons .li2 {
   text-align: center;
   width: 66px;
@@ -268,7 +271,7 @@ nav .menu {
   transform: translateY(-20%);
 }
 
-.col-1 .icons .li2:first-child {
+.col-1 .cart-icon .li2:first-child {
   transition-delay: 0.1s;
 }
 
@@ -276,17 +279,17 @@ nav .menu {
   transition-delay: 0.1s;
 }
 
-.col-1:hover .icons .li2 {
+.col-1:hover .cart-icon .li2 {
   visibility: visible;
   opacity: 1;
   transform: translateY(-20%);
 }
 
-.col-1 .icons .li2:not(:last-child) {
-  margin-right: 0px;
+.col-1 .cart-icon .li2:not(:last-child) {
+  transition-delay: 1s;
 }
 
-.col-1 .icons .li2:hover {
+.col-1 .cart-icon .li2:hover {
   background-color: #e20909;
   color: white;
 }

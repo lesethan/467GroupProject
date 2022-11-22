@@ -14,29 +14,28 @@
       src="https://kit.fontawesome.com/2337335750.js"
       crossorigin="anonymous"
     ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
 
-  <body>
+  <body>   
     <header>
       <nav>
-        <div class="menu">
-          <div class="logo">
-            <a href="/"
-              ><img style="width: 50%" src="img/motor-medic-logo.png"
-            /></a>
+          <div class="menu">
+            <div class="logo">
+              <a href="/"
+                ><img style="width: 50%" src="img/motor-medic-logo.png"
+              /></a>
+            </div>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/catalog">Catalog</a></li>
+              <li><a href="/cart">Cart</a></li>
+              <li><a href="workstation.html">Workstation</a></li>
+              <li><a href="receiving.html">Receiving</a></li>
+              <li><a href="admin.html">Admin</a></li>
+            </ul>
           </div>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/catalog">Catalog</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="workstation.html">Workstation</a></li>
-            <li><a href="receiving.html">Receiving</a></li>
-            <li><a href="admin.html">Admin</a></li>
-          </ul>
-        </div>
       </nav>
     </header>
 
@@ -52,10 +51,6 @@
         <h2 class="cat-title">All Products:</h2>
 
         <ul class="row">
-          <% // var size; %> <%// function sliceIntoChunks(all, size) { %> <%
-          //const //res = []; %> <% //for (let i = 0 ; i < all.length; i +=
-          //size) {%> <% //const chunk = all.slice (i, i + size); %> <% // res
-          //push(chunk); %> <% //} %> <%// return res; } %> <%
           all.forEach((part) => { %>
           <li class="col-1">
             <div class="overlay">
@@ -83,7 +78,7 @@
                 >
                   <i
                     class="fas fa-cart-plus"
-                    style="font-size: 30px; padding-top: 10px"
+                    style="font-size: 30px;"
                   ></i>
                 </button>
               </li>
@@ -102,11 +97,15 @@
           <% })%>
         </ul>
       </div>
-      <section class="pages-container">
-        <div class="small-container">
-          <span class="next">Next</span> <span class="prev">Previous</span>
+          <section class="pages">
+            <div class="container">
+              <span>1</span> <span>2</span> <span>3</span> <span>4</span>
+              <span>&#8594</i></span>
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
+
     </main>
   </body>
 </html>
