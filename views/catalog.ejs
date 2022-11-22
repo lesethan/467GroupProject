@@ -75,8 +75,28 @@
               </div>
               <p>$<%= part.price %></p>
             </div>
-            <ul class="cart-icon">
-              <li class="li2"><i class="fas fa-cart-plus"></i></li>
+            <ul class="icons">
+              <li class="li2">
+                <button
+                  type="submit"
+                  style="background: transparent; border: none"
+                >
+                  <i
+                    class="fas fa-cart-plus"
+                    style="font-size: 30px; padding-top: 10px"
+                  ></i>
+                </button>
+              </li>
+              <li class="li2">
+                <input
+                  type="number"
+                  class="form-input"
+                  name="quantity"
+                  min="1"
+                  max="<%= part.quantity%>"
+                  value="1"
+                />
+              </li>
             </ul>
           </li>
           <% })%>
