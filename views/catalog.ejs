@@ -60,7 +60,7 @@
             </div>
             <div class="pinfo">
               <h3><%= part.description %></h3>
-              <h4>In Stock: <%= part.number %></h4>
+              <h4>In Stock: <%= part.quantity%></h4>
               <div class="rating">
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
@@ -72,6 +72,7 @@
             </div>
             <ul class="icons">
               <li class="li2">
+            <form action="/addtocart/<%= part.number %>" method="post">
                 <button
                   type="submit"
                   style="background: transparent; border: none"
@@ -91,6 +92,7 @@
                   max="<%= part.quantity%>"
                   value="1"
                 />
+            </form>
               </li>
             </ul>
           </li>
