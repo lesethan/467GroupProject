@@ -5,10 +5,12 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-::selection {
-  color: #c9af98;
-  background: #c9af98;
+
+header {
+  background-color: #1b1b1b;
+  height: 85px;
 }
+
 nav {
   position: fixed;
   background: #1b1b1b;
@@ -24,11 +26,11 @@ nav .menu {
   justify-content: space-between;
   padding: 0 20px;
 }
-.menu .logo a {
+
+.menu .logo {
   text-decoration: none;
   color: #c9af98;
-  font-size: 35px;
-  font-weight: 600;
+  padding-top: 7px;
 }
 .menu ul {
   display: inline-flex;
@@ -54,7 +56,7 @@ nav .menu {
   color: black;
 }
 .img {
-  background: url(./images/background-image.jpg);
+  background: url(./img/audi-r8.jpg);
   width: 100%;
   height: 100vh;
   background-size: cover;
@@ -68,6 +70,7 @@ nav .menu {
   width: 100%;
   background: rgba(0, 0, 0, 0.4);
 }
+
 .center {
   position: absolute;
   top: 52%;
@@ -116,6 +119,72 @@ nav .menu {
   background: white;
   color: black;
 }
+.catalog-image {
+  height: 450px;
+  width: 100%;
+}
+
+.catalog-image img {
+  width: 1024px;
+  height: 100%;
+}
+
+.home {
+  background-color: #1b1b1b;
+  width: 100%;
+  height: 60vh;
+  background-image: url(img/catalog.jpg);
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.home-text {
+  margin-left: 40px;
+}
+
+.home-text h1 {
+  color: white;
+  font-size: 65px;
+  line-height: 1;
+}
+
+.home-text h4 {
+  padding-top: 20px;
+  color: rgba(253, 253, 253);
+  font-size: 13px;
+}
+
+.container {
+  max-width: 1125px;
+  margin: auto;
+  margin-top: 60px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 0px;
+}
+.cat-title {
+  text-align: left;
+  margin: 0 auto 30px;
+  margin-left: 20px;
+  position: relative;
+  line-height: 60px;
+  color: #555;
+}
+
+.cat-title::after {
+  content: '';
+  background: #e20909;
+  width: 130px;
+  height: 5px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-110%);
+}
 
 .row {
   display: flex;
@@ -125,31 +194,106 @@ nav .menu {
 }
 
 .col-1 {
-  flex-basis: 33%;
-  padding: 10px;
+  flex-basis: 20%;
+  margin: 40px;
   min-width: 200px;
-  padding-bottom: 100px;
-  padding-top: 100px;
+  max-width: 200px;
+  margin-top: 70px;
 }
 
-.container {
-  max-width: 1024px;
-  margin: auto;
-  padding-right: 25px;
-  padding-left: 25px;
+.product-pic img {
+  height: 150px;
+  width: 200px;
+  object-fit: cover;
+  transition: all 500ms linear;
 }
 
-.small-container {
-  max-width: 1024px;
-  margin: auto;
-  padding-top: 200px;
-  padding-left: 25px;
-  padding-right: 25px;
+.rating {
+  color: #ff523b;
 }
 
-.col-1 img {
-  height: 120%;
-  padding-bottom: 10px;
-  width: 75%;
-  margin-left: 40px;
+.col-1 h3 {
+  color: #1b1b1b;
+  margin-top: 10px;
+}
+.col-1 h4 {
+  font-size: 12px;
+  color: rgb(151, 147, 147);
+  padding-bottom: 8px;
+}
+.col-1:hover {
+  transform: translateY(-6px);
+}
+.col-1 .cart-icon {
+  position: absolute;
+  left: 19%;
+  top: 18%;
+  transform: translateX(45%);
+  display: flex;
+  align-items: center;
+}
+
+.col-1 .cart-icon .li2 {
+  text-align: center;
+  padding: 10px 15px 8px;
+  padding-right: 17px;
+  font-size: 28px;
+  cursor: pointer;
+  transition: 300ms ease-out;
+  transform: translateY(20px);
+  visibility: hidden;
+  opacity: 0;
+  list-style: none;
+}
+
+.col-1 .cart-icon .li2:first-child {
+  transition-delay: 0.1s;
+}
+
+.col-1:hover .cart-icon .li2 {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.col-1 .cart-icon .li2:not(:last-child) {
+  transition-delay: 1s;
+}
+
+.col-1 .cart-icon .li2:hover {
+  background-color: #e20909;
+  color: white;
+}
+
+.col-1 .overlay {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+}
+.col-1 .overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.305);
+  visibility: hidden;
+  opacity: 0;
+  transition: 300ms ease-out;
+}
+
+.col-1:hover .overlay::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+.col-1:hover .product-pic img {
+  transform: scale(1.1);
+}
+.pages span:hover {
+  border: 1px solid #e20909;
+  background-color: #e20909;
+  color: #fff;
 }
