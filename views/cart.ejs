@@ -302,10 +302,15 @@ margin-bottom: 20px;
 </div>
 </div>
 </div>
-<label>
-<input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
-</label>
-<input type="submit" value="Place Order" class="btn">
+<% let validOrder = true; %>
+<% all.forEach((part) => { %>
+<%  if (part.quantity < part.quantity_selected) { validOrder = false; } %>
+<% }) %>
+<% if (validOrder) { %>
+  <input type="submit" value="Place Order" class="btn">
+<% } else { %>
+  <input type="" value="Invalid Quantity in Cart" class="btn">
+<% } %>
 </form>
 </div>
 </div>
@@ -317,13 +322,19 @@ margin-bottom: 20px;
 </span>
 </h4>
 <% let totalPrice = 0; %>
+
 <% all.forEach((part) => { %>
+  <% if (part.quantity < part.quantity_selected) { %>
+    <p style="color:red"><%= part.description %> (<%= part.quantity_selected %>)<span class="price"></span></p>
+    <% validOrder = false %>  
+  <% } else { %>
   <% let newPrice = part.price * part.quantity_selected %>
   <% totalPrice = totalPrice + newPrice %>
   <p><%= part.description %> (<%= part.quantity_selected %>)<span class="price">$<%= newPrice.toFixed(2) %></span></p>
+  <% } %>
 <% }) %>
 <hr>
-<p>Total <span class="price" style="color:black"><b><%= totalPrice.toFixed(2) %></b></span></p>
+<p>Total <span class="price" style="color:black"><b><%= validOrder ? totalPrice.toFixed(2) : "Invalid Order" %></b></span></p>
 </div>
 </div>
 </div>
