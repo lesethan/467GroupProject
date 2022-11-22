@@ -52,10 +52,14 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 // });
 
 
-sql = `SELECT * FROM cartitems`;
-db.all(sql, [], (err, rows) => {
-    if (err) return console.error(err);
-    rows.forEach((row) => console.log(row))
-})
+// sql = `SELECT * FROM cartitems`;
+// db.all(sql, [], (err, rows) => {
+//     if (err) return console.error(err);
+//     rows.forEach((row) => console.log(row))
+// })
 
+// sql = `CREATE TABLE users (uid INTEGER AUTO INCREMENT, username, password)`
+// db.run(sql)
 
+// sql = `INSERT INTO users (username, password) VALUES (?, ?)`
+// db.run(sql, ["admin", "admin"])

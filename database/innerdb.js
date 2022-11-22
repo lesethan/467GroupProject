@@ -9,12 +9,14 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 });
 
 module.exports = {
+    // Generates rows containing every Part in the database
     getAllItems: async (result) => {
         await db.all("SELECT * FROM parts ORDER BY number", [], (err, rows) => {
             if (err) return console.error(err.message);
             result(rows);
         })
       },
+    // Checks if a cart already exists for a user's session
     cartExists: function (sessionID)  {
         return new Promise((resolve, reject) => {
             db.serialize(() => {
@@ -25,12 +27,14 @@ module.exports = {
             })
         })    
     },
+    // Creates a users cart using their session ID
     createCart: function (sessionID) {
         db.all("INSERT INTO cart (session_id) VALUES (?)", [sessionID], (err, rows) => {
             if (err) return console.error(err.message);
             console.log("Cart created");
         })
     },
+    // Adds a quantity of a specific part to the cart
     addToCart: function (sessionID, partNumber, quantity) {
         let parsedNum = parseInt(partNumber);
         let parsedQuan = parseInt(quantity);
@@ -39,6 +43,7 @@ module.exports = {
             console.log("Item added to cart");
         })
     },
+    // Removes part from cart
     removeFromCart: function (sessionID, partNumber) {
         let parsedNum = parseInt(partNumber);
         db.all("DELETE FROM cartitems WHERE number = ? AND session_id = ?", [parsedNum, sessionID], (err, rows) => {
@@ -46,10 +51,22 @@ module.exports = {
             console.log("Item removed from cart");
         }); 
     },
+    // Generates rows with information of every part in the users cart
     getCart: function (sessionID) {
         return new Promise((resolve, reject) => {
             db.serialize(() => {
                 db.all('SELECT * FROM cartitems INNER JOIN parts ON parts.number = cartitems.number WHERE cartitems.session_id = ?', [sessionID], (err, rows) => {
+                    if (err) reject (err);
+                    resolve(rows);
+                })
+            })
+        }) 
+    },
+    // Attempts to log user into admin account
+    loginUser: function (username, password) {
+        return new Promise((resolve, reject) => {
+            db.serialize(() => {
+                db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, rows) => {
                     if (err) reject (err);
                     resolve(rows);
                 })

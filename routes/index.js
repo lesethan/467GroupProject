@@ -33,7 +33,7 @@ router.post('/addtocart/:number', (req, res) => {
                   if (!result) createCart(req.session.id)
                 });
   addToCart(req.session.id, req.params.number, req.body.quantity);
-  res.redirect("/catalog");
+  res.redirect("/cart");
 }) 
 
 // "Remove from Cart" POST Route on the Catalog Page
@@ -41,6 +41,7 @@ router.post('/removefromcart/:number', (req, res) => {
   removeFromCart(req.session.id, req.params.number)
   res.redirect("/cart");
 })
+
 // Cart page GET Route
 router.get("/cart", (req, res) => {
   try {
@@ -56,6 +57,11 @@ router.get("/cart", (req, res) => {
     process.exit(1);
   }
 });
+
+// Login page GET Route
+router.get("/loginuser", (req, res) => {
+  
+})
 
 // Backend Data Testing Route
 router.get("/test", (req, res) => {

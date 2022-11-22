@@ -1,0 +1,27 @@
+<%- include ('partials/header') %>
+    <h1>Test Page</h1>
+    <% let totalPrice = 0; %>
+    <h3>All Cart Items:</h3>
+    <ul>
+      <% all.forEach((part) => { %>
+      <li>
+        <img src="<%= part.pictureURL %>" />
+        <h4><%= part.description %> (<%=part.quantity_selected %>x)</h4>
+        <% if (part.quantity_selected > part.quantity) { %>
+          <h4 style="color:red">You have selected too many of this item!</h4>
+        <% } %>
+        <% let newPrice = part.price * part.quantity_selected %>
+        <% totalPrice = totalPrice + newPrice %>
+        $<%= newPrice.toFixed(2) %>
+
+        
+      </li>
+      <form action="/removefromcart/<%= part.number %>" method="post">
+        <button type="submit" name="submit">Remove</button>
+      </form>
+      <% }) %>
+    </ul>
+
+    <h3>Total Price: <%= totalPrice.toFixed(2) %></h3>
+  </body>
+</html>
