@@ -254,11 +254,11 @@ nav .menu {
   text-align: center;
   width: 66px;
   height: 66px;
-  padding: 10px 15px 8px;
+  padding: 12px 15px 0px;
   font-size: 28px;
   cursor: pointer;
   transition: 300ms ease-out;
-  transform: translateY(20px);
+  transform: translateY(100px);
   visibility: hidden;
   opacity: 0;
 }
@@ -267,8 +267,7 @@ nav .menu {
   width: 31px;
   height: 28px;
   text-align: center;
-  padding-bottom: 5px;
-  transform: translateY(-20%);
+  transform: translateY(-23%);
 }
 
 .col-1 .icons .li2:first-child {
@@ -290,8 +289,8 @@ nav .menu {
 }
 
 .col-1 .icons .li2:hover {
-  background-color: #e20909;
   color: white;
+  background-color: #e20909;
 }
 
 .col-1 .overlay {
