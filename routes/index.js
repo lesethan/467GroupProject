@@ -63,6 +63,14 @@ router.get('/cart', (req, res) => {
   }
 });
 
+router.get('/associate', (req, res) => {
+  res.render('associate');
+});
+
+router.get('/receiving', (req, res) => {
+  res.render('receiving');
+});
+
 // Login page GET Route
 router.get('/loginuser', (req, res) => {});
 
