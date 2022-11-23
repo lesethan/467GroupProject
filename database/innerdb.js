@@ -72,5 +72,13 @@ module.exports = {
                 })
             })
         }) 
+    },
+    generateOrder: function (sessionID, name, email, ccard, subtotal) {
+        db.all(`INSERT INTO orders (session_id, name, email, ccard, subtotal, authorized, shipped) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                [sessionID, name, email, ccard, subtotal, "Authorized", "Not Shipped"],
+                (err, rows) => {
+                    if (err) return console.log(err)
+                    console.log("Order Generated")
+                })
     }
 }

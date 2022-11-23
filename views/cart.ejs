@@ -258,7 +258,12 @@ margin-bottom: 20px;
 <div class="row">
 <div class="col-75">
 <div class="container">
-<form action="/action_page.php">
+  <% let totalPrice = 0; %>
+  <% all.forEach((part) => { %>
+    <% let newPrice = part.price * part.quantity_selected %>
+    <% totalPrice = totalPrice + newPrice %>
+  <% }) %> 
+<form action="/checkout/<%= totalPrice.toFixed(2) %>" method="post">
 <div class="row">
 <div class="col-50">
 <h3>Billing Address</h3>
@@ -287,14 +292,10 @@ margin-bottom: 20px;
 <label for="cname">Name on Card</label>
 <input type="text" id="cname" name="cardname" placeholder="John More Doe">
 <label for="ccnum">Credit card number</label>
-<input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-<label for="expmonth">Exp Month</label>
-<input type="text" id="expmonth" name="expmonth" placeholder="September">
+<input type="text" id="ccnum" name="cardnumber" placeholder="1111 2222 3333 4444">
+<label for="expdate">Exp Date</label>
+<input type="text" id="expdate" name="expdate" placeholder="12/2025">
 <div class="row">
-<div class="col-50">
-<label for="expyear">Exp Year</label>
-<input type="text" id="expyear" name="expyear" placeholder="2018">
-</div>
 <div class="col-50">
 <label for="cvv">CVV</label>
 <input type="text" id="cvv" name="cvv" placeholder="352">
@@ -321,15 +322,14 @@ margin-bottom: 20px;
 <i class="fa fa-shopping-cart"></i>
 </span>
 </h4>
-<% let totalPrice = 0; %>
+
 
 <% all.forEach((part) => { %>
   <% if (part.quantity < part.quantity_selected) { %>
     <p style="color:red"><%= part.description %> (<%= part.quantity_selected %>)<span class="price"></span></p>
     <% validOrder = false %>  
   <% } else { %>
-  <% let newPrice = part.price * part.quantity_selected %>
-  <% totalPrice = totalPrice + newPrice %>
+    <% let newPrice = part.price * part.quantity_selected %>
   <p><%= part.description %> (<%= part.quantity_selected %>)<span class="price">$<%= newPrice.toFixed(2) %></span></p>
   <% } %>
 <% }) %>

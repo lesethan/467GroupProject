@@ -1,5 +1,6 @@
 const express = require("express");
-const { cartExists, addToCart, createCart, getCart, removeFromCart } = require("../database/innerdb");
+const { processPayment } = require("../database/credit");
+const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder } = require("../database/innerdb");
 const router = express.Router();
 const parts = require("../database/innerdb"); // Used to call functions using the DB
 
@@ -58,10 +59,39 @@ router.get("/cart", (req, res) => {
   }
 });
 
-// Login page GET Route
-router.get("/loginuser", (req, res) => {
-  
+// Checkout page 
+router.post("/checkout/:price", (req, res) => {
+  let name = req.body.firstname;
+  let email = req.body.email
+  let address = req.body.address
+  let ccnumber = req.body.cardnumber 
+  let ccexp = req.body.expdate;
+  let price = req.params.price
+  let authNum;
+
+  if(!name || !email || !address || !ccnumber || !ccexp) {
+    res.redirect("/cart")
+  }
+
+  processPayment(name, email, address, ccnumber, ccexp, price).then((result) => {
+    authNum = result.authorization
+  })
+
+  if (authNum == null) {
+    console.log("Error processing payment")
+    res.redirect("/cart")
+  } else {
+    generateOrder(req.session.id, name, email, ccnumber, price);
+    res.redirect("/")
+  }
+
 })
+
+
+// // Login page GET Route
+// router.get("/loginuser", (req, res) => {
+  
+// })
 
 // Backend Data Testing Route
 router.get("/test", (req, res) => {
