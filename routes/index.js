@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const express = require('express');
 const {
   cartExists,
@@ -5,6 +6,10 @@ const {
   createCart,
   getCart,
   removeFromCart,
+  addInventory,
+  removeInventory,
+  updateInventory,
+  search,
 } = require('../database/innerdb');
 const router = express.Router();
 const parts = require('../database/innerdb'); // Used to call functions using the DB
@@ -47,6 +52,21 @@ router.post('/removefromcart/:number', (req, res) => {
   res.redirect('/cart');
 });
 
+router.post('/addInventory/:number', (req, res) => {
+  addInventory(req.params.number, req.body.quantity, req.body.partQuantity);
+  res.redirect('/receiving');
+});
+
+router.post('/removeInventory/:number', (req, res) => {
+  removeInventory(req.params.number, req.body.quantity, req.body.partQuantity);
+  res.redirect('/receiving');
+});
+
+router.post('/updateInventory/:number', (req, res) => {
+  updateInventory(req.params.number, req.body.quantity);
+  res.redirect('/receiving');
+});
+
 // Cart page GET Route
 router.get('/cart', (req, res) => {
   try {
@@ -63,12 +83,21 @@ router.get('/cart', (req, res) => {
   }
 });
 
+// Asocciate Home Screen GET Route
 router.get('/associate', (req, res) => {
   res.render('associate');
 });
 
+// Receiving (Employee) GET Route
 router.get('/receiving', (req, res) => {
-  res.render('receiving');
+  try {
+    parts.getAllItems((list) => {
+      res.render('receiving', { all: list });
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
 });
 
 // Login page GET Route

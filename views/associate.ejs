@@ -7,8 +7,14 @@
     <title>Motor Medics | Associates</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-      nav {
-        background-color: rgb(206, 69, 69);
+      .emp-home h2 {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .emp-home h4 {
+        text-align: center;
       }
     </style>
     <link
@@ -18,24 +24,32 @@
   </head>
   <body>
     <header>
-      <nav>
-        <div class="menu">
-          <div class="logo">
-            <a href="/"
-              ><img
-                style="width: 50%"
-                src="img/motor-medic-logo.png"
-                alt="Motor Medic"
-            /></a>
+      <!--employee navbar-->
+      <div class="emp-nav">
+        <nav>
+          <div class="menu">
+            <div class="logo">
+              <a href="/"
+                ><img
+                  style="width: 50%"
+                  src="img/motor-medic-logo.png"
+                  alt="Motor Medic"
+              /></a>
+            </div>
+            <ul>
+              <li><a href="/associate">Home</a></li>
+              <li><a href="#">Workstation</a></li>
+              <li><a href="/receiving">Receiving</a></li>
+              <li><a href="#">Admin</a></li>
+            </ul>
           </div>
-          <ul>
-            <li><a href="/associate">Home</a></li>
-            <li><a href="#">Workstation</a></li>
-            <li><a href="/receiving">Receiving</a></li>
-            <li><a href="/#">Admin</a></li>
-          </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
+    <!--Welcome Message-->
+    <section class="emp-home">
+      <h2>Hello, associate.</h2>
+      <h4>We are pleased to have you!</h4>
+    </section>
   </body>
 </html>

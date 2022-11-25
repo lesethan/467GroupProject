@@ -7,35 +7,181 @@
     <title>Receiving Workstation</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-      nav {
-        background-color: rgb(206, 69, 69);
+      .heading {
+        text-align: left;
+        line-height: 60px;
+        color: #555;
       }
+
+      .row {
+        justify-content: space-around;
+      }
+      .col1 {
+        flex-basis: 20%;
+        margin: 40px 40px;
+        max-width: 175px;
+        height: 375px;
+        margin-top: 70px;
+        list-style: none;
+      }
+
+      .col1:hover {
+        transform: translateY(-6px);
+      }
+
+      .text-contain {
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .rcv-cnt {
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .search-bar {
+        margin-left: 10px;
+        display: flex;
+        justify-content:center;
+      }
+
+      .search-bar i {
+        color: lightslategray;
+        padding-top: 4px;
+        padding-right: 7px;
+      }
+
+      .search-bar input {
+        width: 160x;
+        margin-left: 5px;
+        padding-top: 3px;
+        border: 1px solid lightslategray;
+        border-radius: 5px;
+        border: none; 
+        outline: none;
+        box-shadow: none;
+        font-size: 14px;
+      }
+
+      .container .rcv-cnt form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 200px;
+        height: 45px;
+        border: 1px solid #992828;
+        border-radius: 20px;
+        margin-top: 5px;
+      }
+
     </style>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
+    <script
+    src="https://kit.fontawesome.com/2337335750.js"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    function searchBar() {
+    const searchBox = document.getElementById('searchItem').value.toUpperCase();
+    const storeItems = document.getElementById('div-row');
+    const product = document.querySelectorAll('.col1');
+    const productName = storeItems.getElementsByTagName('h3');
+    const search2 = document.getElementById('searchItem');
+    const pound = "#";
+
+    for (i = 0; i < productName.length; i++) {
+      let match = product[i].getElementsByTagName('h3')[0];
+      if (match) {
+        let textvalue = match.textContent || match.innerHTML;
+        if(searchBox[0]==pound){
+          let matchNum = product[i].getElementsByTagName('h2')[0];
+          if (matchNum) { 
+          let partnum = matchNum.textContent || matchNum.innerHTML;
+          if(partnum.indexOf(searchBox) > -1) {
+            product[i].style.display = '';
+          } else {
+            product[i].style.display = 'none';
+          }
+         } 
+        } else if (textvalue.toUpperCase().indexOf(searchBox) > -1) {
+          product[i].style.display = '';
+        } else {
+          product[i].style.display = 'none';
+        }
+      }
+    }
+};
+  </script>
   </head>
   <body>
     <header>
-      <nav>
-        <div class="menu">
-          <div class="logo">
-            <a href="/"
-              ><img
-                style="width: 50%"
-                src="img/motor-medic-logo.png"
-                alt="Motor Medic"
-            /></a>
+      <div class="emp-nav">
+        <nav>
+          <div class="menu">
+            <div class="logo">
+              <a href="/"
+                ><img
+                  style="width: 50%"
+                  src="img/motor-medic-logo.png"
+                  alt="Motor Medic"
+              /></a>
+            </div>
+            <ul>
+              <li><a href="/associate">Home</a></li>
+              <li><a href="#">Workstation</a></li>
+              <li><a href="/receiving">Receiving</a></li>
+              <li><a href="#">Admin</a></li>
+            </ul>
           </div>
-          <ul>
-            <li><a href="/associate">Home</a></li>
-            <li><a href="#">Workstation</a></li>
-            <li><a href="/receiving">Receiving</a></li>
-            <li><a href="#">Admin</a></li>
-          </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
+    <main>
+      <div class="container">
+        
+        <div class="rcv-cnt">
+                  <h3 class="heading">All Parts :</h3>
+          <form>
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchItem" placeholder="Search Parts" onkeyup="searchBar();" >
+        </div>
+        </form>
+      </div>
+        <li class="row" id="div-row">
+          <% all.forEach((part) => { %>
+          <div class="col1">
+            <div class="product-pic">
+              <img src="<%= part.pictureURL %>" />
+            </div>
+            <div class="text-contain">
+              <h2 id="partNumber" style="color: transparent;"> #<%= part.number %> </h2>
+              <h3><%= part.description  %> </h3>
+              <h4 class="q-text" style="color: rgb(185, 10, 10)">
+                On Hand: <%= part.quantity %>
+              </h4>
+             
+              <form action="/addInventory/<%= part.number %>" method="post">
+                <button type="submit" name = "partQuantity" value="<%= part.quantity  %> ">Add to inventory:</button>
+                <input type="number" name = "quantity"></input> 
+              </form>
+              <form action="/removeInventory/<%= part.number %>" method="post">
+                <button type="submit" name = "partQuantity" value="<%= part.quantity %> ">Remove from inventory:</button>
+                <input type="number" name = "quantity"></input> 
+              </form>
+              <form action="/updateInventory/<%= part.number %>" method="post">
+                <button type="submit">Update inventory:</button>
+                <input type="number" name = "quantity"></input> 
+              </form>
+            </div>
+          </div>
+         
+          <% }) %>
+        </li>
+      </div>
+    </main>
   </body>
 </html>
