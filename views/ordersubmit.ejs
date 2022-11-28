@@ -1,0 +1,11 @@
+<h1>Your Order</h1>
+<h1><%= order.ccard %></h1>
+<% cart.forEach((part) => { %>
+    <% if (part.quantity < part.quantity_selected) { %>
+      <p style="color:red"><%= part.description %> (<%= part.quantity_selected %>)<span class="price"></span></p>
+      <% validOrder = false %>  
+    <% } else { %>
+      <% let newPrice = part.price * part.quantity_selected %>
+    <p><%= part.description %> (<%= part.quantity_selected %>)<span class="price">$<%= newPrice.toFixed(2) %></span></p>
+    <% } %>
+  <% }) %>

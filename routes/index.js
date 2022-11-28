@@ -1,6 +1,6 @@
 const express = require("express");
 const { processPayment } = require("../database/credit");
-const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder } = require("../database/innerdb");
+const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showAllOrders, completeOrder } = require("../database/innerdb");
 const router = express.Router();
 const parts = require("../database/innerdb"); // Used to call functions using the DB
 
@@ -43,6 +43,22 @@ router.post('/removefromcart/:number', (req, res) => {
   res.redirect("/cart");
 })
 
+// Inventory Management POST Routes
+router.post('/addInventory/:number', (req, res) => {
+  addInventory(req.params.number, req.body.quantity, req.body.partQuantity);
+  res.redirect('/receiving');
+});
+
+router.post('/removeInventory/:number', (req, res) => {
+  removeInventory(req.params.number, req.body.quantity, req.body.partQuantity);
+  res.redirect('/receiving');
+});
+
+router.post('/updateInventory/:number', (req, res) => {
+  updateInventory(req.params.number, req.body.quantity);
+  res.redirect('/receiving');
+});
+
 // Cart page GET Route
 router.get("/cart", (req, res) => {
   try {
@@ -75,18 +91,56 @@ router.post("/checkout/:price", (req, res) => {
 
   processPayment(name, email, address, ccnumber, ccexp, price).then((result) => {
     authNum = result.authorization
+    console.log(result)
+    if (authNum == null) {
+      console.log("Error processing payment")
+      res.redirect("/cart")
+    } else {
+      generateOrder(req.session.id, name, email, ccnumber, price);
+      res.redirect("/ordersubmit")
+    }
   })
-
-  if (authNum == null) {
-    console.log("Error processing payment")
-    res.redirect("/cart")
-  } else {
-    generateOrder(req.session.id, name, email, ccnumber, price);
-    res.redirect("/")
-  }
-
 })
 
+// Doesn't work properly yet
+router.get("/ordersubmit", (req, res) => {
+  showOrder(req.session.id).then((order) => {
+    console.log(order)
+    getCart(order.session_id).then((cart) => {
+      console.log(cart)
+      res.render("ordersubmit", { order, cart })
+    })
+    
+  })
+})
+
+router.get("/workstation", (req, res) => {
+  parts.showAllOrders((orders) => {
+    res.render("workstation", { orders })
+  })
+})
+
+router.post("/completeorder/:id", (req, res) => {
+  completeOrder(req.params.id);
+  res.redirect("/workstation")
+})
+
+// Asocciate Home Screen GET Route
+router.get('/associate', (req, res) => {
+  res.render('associate');
+});
+
+// Receiving (Employee) GET Route
+router.get('/receiving', (req, res) => {
+  try {
+    parts.getAllItems((list) => {
+      res.render('receiving', { all: list });
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+});
 
 // // Login page GET Route
 // router.get("/loginuser", (req, res) => {
