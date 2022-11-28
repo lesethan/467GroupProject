@@ -31,9 +31,8 @@
               <li><a href="/">Home</a></li>
               <li><a href="/catalog">Catalog</a></li>
               <li><a href="/cart">Cart</a></li>
-              <li><a href="workstation.html">Workstation</a></li>
-              <li><a href="receiving.html">Receiving</a></li>
-              <li><a href="admin.html">Admin</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="/associate">Associates</a></li>
             </ul>
           </div>
       </nav>
@@ -49,33 +48,56 @@
     <main>
       <div class="container">
         <h2 class="cat-title">All Products:</h2>
-        <div class="row">
+
+        <ul class="row">
           <% all.forEach((part) => { %>
-          <div class="col-1">
+          <li class="col-1">
             <div class="overlay">
               <div class="product-pic">
-            <img src="<%= part.pictureURL %>" />
-          </div>
+                <img src="<%= part.pictureURL %>" />
+              </div>
             </div>
-            <h3><%= part.description %></h3>
-            <h4>In Stock: <%= part.quantity %></h4>
-            <div class="rating">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-regular fa-star-half-stroke"></i>
+            <div class="pinfo">
+              <h3><%= part.description %></h3>
+              <h4>In Stock: <%= part.quantity%></h4>
+              <div class="rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star-half-stroke"></i>
+              </div>
+              <p>$<%= part.price %></p>
             </div>
-            <p>$<%= part.price %></p>
-            <ul class="cart-icon">
-              <li class="li2"><i class="fas fa-cart-plus"></i></li>
-            </ul>
+            <ul class="icons">
+              <li class="li2">
             <form action="/addtocart/<%= part.number %>" method="post">
-              <input type="text" name="quantity" placeholder="Select Quantity">
-              <button type="submit" name="submit">Add to Cart</button>
+                <button
+                  type="submit"
+                  style="background: transparent; border: none"
+                >
+                  <i
+                    class="fas fa-cart-plus"
+                    style="font-size: 30px; color: white;"
+                  ></i>
+                </button>
+              </li>
+              <li class="li2">
+                <input
+                  type="number"
+                  class="form-input"
+                  name="quantity"
+                  min="1"
+                  max="<%= part.quantity%>"
+                  value="1"
+                />
             </form>
-          </div>
-          <% }) %>
+              </li>
+            </ul>
+          </li>
+          <% })%>
+        </ul>
+      </div>
           <section class="pages">
             <div class="container">
               <span>1</span> <span>2</span> <span>3</span> <span>4</span>
@@ -84,7 +106,6 @@
           </section>
         </div>
       </div>
-
     </main>
   </body>
 </html>

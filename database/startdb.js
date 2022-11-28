@@ -63,3 +63,12 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 
 // sql = `INSERT INTO users (username, password) VALUES (?, ?)`
 // db.run(sql, ["admin", "admin"])
+
+// sql = `CREATE TABLE orders (oid INTEGER AUTO INCREMENT, session_id, name, email, ccard, subtotal, authorized, shipped)`
+// db.run(sql)
+
+sql = `SELECT * FROM orders`
+db.all(sql, [], (err, rows) => {
+        if (err) return console.error(err);
+        rows.forEach((row) => console.log(row))
+    })

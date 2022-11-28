@@ -72,5 +72,102 @@ module.exports = {
                 })
             })
         }) 
+    },
+    generateOrder: function (sessionID, name, email, ccard, subtotal) {
+        db.all(`INSERT INTO orders (session_id, name, email, ccard, subtotal, authorized, shipped) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                [sessionID, name, email, ccard, subtotal, "Authorized", "Not Shipped"],
+                (err, rows) => {
+                    if (err) return console.log(err)
+                    console.log("Order Generated")
+                })
+    },
+    showOrder: function (sessionID) {
+        return new Promise((resolve, reject) => {
+            db.serialize(() => {
+                db.all('SELECT * FROM orders where session_id = ?', [sessionID], (err, rows) => {
+                    if (err) reject (err);
+                    resolve(rows);
+                })
+            })
+        })
+    },
+    showAllOrders: async (result) => {
+        await db.all("SELECT * FROM orders WHERE shipped = ?", ["Not Shipped"], (err, rows) => {
+            if (err) return console.error(err.message);
+            result(rows);
+        }) 
+    },
+    completeOrder: function (sessionID) {
+        db.run(`UPDATE orders SET shipped = ? WHERE session_id = ?`, ["Shipped", sessionID], (err, rows) => {
+            if (err) return console.error(err.message)
+            console.log("Order completed")
+        })
+    },
+    
+  addInventory: function (partNumber, quantity, partQuantity) {
+    let parsedPN = parseInt(partNumber);
+    let parsedQTY = parseInt(quantity);
+    let parsedTmp = parseInt(partQuantity);
+    parsedQTY = parsedQTY + parsedTmp;
+    db.serialize(() => {
+      db.get(
+        'UPDATE parts SET quantity = ? WHERE number = ?',
+        [parsedQTY, parsedPN],
+        (err, rows) => {
+          if (err) return console.error(err.message);
+          console.log(
+            'Inventory Added | Part Number #' +
+              partNumber +
+              ' : In Stock - ' +
+              parsedQTY
+          );
+        }
+      );
+    });
+  },
+
+  removeInventory: function (partNumber, quantity, partQuantity) {
+    let parsedPN = parseInt(partNumber);
+    let parsedQTY = parseInt(quantity);
+    let parsedTmp = parseInt(partQuantity);
+    if (parsedQTY < parsedTmp) {
+      parsedQTY = parsedTmp - parsedQTY;
+      db.serialize(() => {
+        db.get(
+          'UPDATE parts SET quantity = ? WHERE number = ?',
+          [parsedQTY, parsedPN],
+          (err, rows) => {
+            if (err) return console.error(err.message);
+            console.log(
+              'Inventory Removed | Part Number #' +
+                partNumber +
+                ' : In Stock - ' +
+                parsedQTY
+            );
+          }
+        );
+      });
     }
+  },
+
+  updateInventory: function (partNumber, quantity) {
+    let parsedPN = parseInt(partNumber);
+    let parsedQTY = parseInt(quantity);
+    db.serialize(() => {
+      db.get(
+        'UPDATE parts SET quantity = ? WHERE number = ?',
+        [parsedQTY, parsedPN],
+        (err, rows) => {
+          if (err) return console.error(err.message);
+          console.log(
+            'Inventory Updated | Part Number #' +
+              partNumber +
+              ' : In Stock - ' +
+              parsedQTY
+          );
+        }
+      );
+    });
+  },
+
 }

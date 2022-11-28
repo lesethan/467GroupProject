@@ -1,0 +1,8 @@
+<% orders.forEach((order) => { %>
+    <h2><%= order.name %></h2>
+    <h2><%= order.subtotal %></h2>
+    <h2><%= order.shipped %></h2>
+    <form action="/completeorder/<%= order.session_id %>" method="post">
+        <button type="submit" name="submit">Complete Order</button>
+    </form>
+<% }) %>
