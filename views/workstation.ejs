@@ -1,8 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Poppins", sans-serif;
+}
+::selection {
+color: #c9af98;
+background: #c9af98;
+}
+nav {
+position: fixed;
+background: #000000;
+width: 100%;
+padding: 10px 0;
+z-index: 12;
+}
+nav .menu {
+max-width: 1250px;
+margin: auto;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 20px;
+}
+.menu .logo a {
+text-decoration: none;
+color: #c9af98;
+}
+.menu ul {
+display: inline-flex;
+}
+.menu ul li {
+list-style: none;
+margin-left: 7px;
+}
+.menu ul li:first-child {
+margin-left: 0px;
+}
+.menu ul li a {
+text-decoration: none;
+color: #fff;
+font-size: 16px;
+font-weight: 500;
+padding: 8px 15px;
+border-radius: 5px;
+transition: all 0.3s ease;
+}
+.menu ul li a:hover {
+background: #fff;
+color: black;
+}
+.img {
+background-image: url("img/audi-r8.jpg");
+width: 100%;
+height: 100vh;
+background-size: cover;
+background-position: center;
+position: relative;
+}
+.img::before {
+content: "";
+position: absolute;
+height: 100%;
+width: 100%;
+background: rgba(0, 0, 0, 0.4);
+}
+.center {
+position: absolute;
+top: 15%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 100%;
+padding: 0 20px;
+text-align: center;
+}
+.center .title {
+color: #fff;
+font-size: 55px;
+font-weight: 600;
+}
+.center .sub_title {
+color: #fff;
+font-size: 52px;
+font-weight: 600;
+}
+.center .btns {
+margin-top: 20px;
+}
+.center .btns button {
+height: 55px;
+width: 170px;
+border-radius: 5px;
+border: none;
+margin: 0 10px;
+border: 2px solid white;
+font-size: 20px;
+font-weight: 500;
+padding: 0 10px;
+cursor: pointer;
+outline: none;
+transition: all 0.3s ease;
+}
+.center .btns button:first-child {
+color: #fff;
+background: none;
+}
+.btns button:first-child:hover {
+background: white;
+color: black;
+}
+.center .btns button:last-child {
+background: white;
+color: black;
+}
+
+
+
+
+
+/* TABLE CSS BELOW */
+.styled-table {
+border-collapse: collapse;
+margin: 25px 0;
+font-size: 0.9em;
+font-family: sans-serif;
+min-width: 400px;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+background-color: #ff7722;
+color: #ffffff;
+text-align: left;
+}
+.styled-table th,
+.styled-table td {
+padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+border-bottom: 2px solid black;
+}
+
+.styled-table tbody tr.active-row {
+font-weight: bold;
+color: black;
+background-color: #f3f3f3;
+}
+
+/* END TABLE CSS */
+
+</style>
+
+
+
+
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!------<title> Website Home Page </title>------>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+</head>
+<body>
+<nav>
+<div class="menu">
+<div class="logo">
+<a href="index.html"><img style="width: 50%;" src="img/motor-medic-logo.png"></a>
+</div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="catalog.html">Catalog</a></li>
+<li><a href="cart.html">Cart</a></li>
+<li><a href="workstation.html">Workstation</a></li>
+<li><a href="receiving.html">Receiving</a></li>
+<li><a href="admin.html">Admin</a></li>
+</ul>
+</div>
+</nav>
+<div style="width: 100%; height: 20vh; background-image: url(img/audi-r8.jpg)"></div>
+<div class="center">
+<div style="padding-top: 20px;" class="title">All Active Orders</div>
+<div class="btns">
+    </div><br>
+</div>
+<!--START OF TABLE HTML-->
+
+</body>
+<table class="styled-table" style="width: 100%;">
+<thead>
+<tr style=" text-align: center;">
+<th>Order #</th>
+<th>Name</th>
+<th>Email</th>
+<th>Card</th>
+<th>Subtotal</th>
+<th>Complete Order</th>
+</tr>
+</thead>
+<tbody>
+</tr>
 <% orders.forEach((order) => { %>
-    <h2><%= order.name %></h2>
-    <h2><%= order.subtotal %></h2>
-    <h2><%= order.shipped %></h2>
-    <form action="/completeorder/<%= order.session_id %>" method="post">
-        <button type="submit" name="submit">Complete Order</button>
-    </form>
+    <tr class="active-row">
+        <td style=" text-align: center;"><%= order.session_id %></td>
+        <td style=" text-align: center;"><%= order.name %></td>
+        <td style=" text-align: center;"><%= order.email %></td>
+        <td style=" text-align: center;"><%= order.ccard %></td>
+        <td style=" text-align: center;">$<%= order.subtotal %></td>
+        
+        <form action="/completeorder/<%= order.session_id %>" method="post">
+        <td style=" text-align: center;"><button type = "submit" name = "submit">Complete</button></td>
+        </form>
+        
+        </tr>
 <% }) %>
+
+
+<!--END OF TABLE HTML-->
+</tbody>
+</table>
+</html>
