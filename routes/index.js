@@ -1,6 +1,6 @@
 const express = require("express");
 const { processPayment } = require("../database/credit");
-const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showAllOrders, completeOrder, convertCartItemsToOrder, destroyCart, subtractItem, addInventory, removeInventory, updateInventory, getAllRows, calculateSH } = require("../database/innerdb");
+const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showUnfilledOrders, completeOrder, convertCartItemsToOrder, destroyCart, subtractItem, addInventory, removeInventory, updateInventory, getAllRows, calculateSH } = require("../database/innerdb");
 const router = express.Router();
 const nodemailer = require('nodemailer')
 const parts = require("../database/innerdb"); // Used to call functions using the DB
@@ -169,7 +169,7 @@ router.get("/ordersubmit", (req, res) => {
 
 // Workstation
 router.get("/workstation", (req, res) => {
-  parts.showAllOrders((orders) => {
+  parts.showUnfilledOrders((orders) => {
     res.render("workstation", { orders })
   })
 })

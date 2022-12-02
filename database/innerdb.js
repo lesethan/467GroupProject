@@ -92,7 +92,7 @@ module.exports = {
         })
     }) 
     },
-    showAllOrders: async (result) => {
+    showUnfilledOrders: async (result) => {
         await db.all("SELECT * FROM orders WHERE shipped = ?", ["Not Shipped"], (err, rows) => {
             if (err) return console.error(err.message);
             result(rows);
@@ -200,5 +200,11 @@ module.exports = {
       else if (rows) callback(rows.price || 0)
       else callback(0)
     })
-  }
+  },
+  showAllOrders: async (result) => {
+    await db.all("SELECT * FROM orders", (err, rows) => {
+        if (err) return console.error(err.message);
+        result(rows);
+    }) 
+},
 }
