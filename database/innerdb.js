@@ -74,22 +74,23 @@ module.exports = {
         }) 
     },
     generateOrder: function (sessionID, name, email, ccard, subtotal) {
-        db.all(`INSERT INTO orders (session_id, name, email, ccard, subtotal, authorized, shipped) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-                [sessionID, name, email, ccard, subtotal, "Authorized", "Not Shipped"],
+      datestring = new Date().toLocaleDateString();
+        db.all(`INSERT INTO orders (session_id, name, email, ccard, subtotal, authorized, shipped, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                [sessionID, name, email, ccard, subtotal, "Authorized", "Not Shipped", datestring],
                 (err, rows) => {
                     if (err) return console.log(err)
                     console.log("Order Generated")
                 })
     },
     showOrder: function (sessionID) {
-        return new Promise((resolve, reject) => {
-            db.serialize(() => {
-                db.all('SELECT * FROM orders where session_id = ?', [sessionID], (err, rows) => {
-                    if (err) reject (err);
-                    resolve(rows);
-                })
+      return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.all('SELECT * FROM orderitems INNER JOIN parts ON parts.number = orderitems.number WHERE orderitems.session_id = ?', [sessionID], (err, rows) => {
+                if (err) reject (err);
+                resolve(rows);
             })
         })
+    }) 
     },
     showAllOrders: async (result) => {
         await db.all("SELECT * FROM orders WHERE shipped = ?", ["Not Shipped"], (err, rows) => {
@@ -169,5 +170,35 @@ module.exports = {
       );
     });
   },
-
+  convertCartItemsToOrder: async function (sessionID) {
+    await db.all("INSERT INTO orderitems (number, quantity_selected, session_id) SELECT number, quantity_selected, session_id FROM cartitems WHERE cartitems.session_id = ?",
+            [sessionID], (err, rows) => {
+              if (err) console.error(err.message) 
+              else console.log("Cart items saved into orderitems")
+            })
+  },
+  destroyCart: async function (sessionID) {
+    await db.all("DELETE FROM cartitems WHERE session_id = ?", [sessionID], (err, rows) => {
+      if (err) console.error(err.message)
+      else console.log("Cart has been destroyed")
+    })
+  },
+  subtractItem: async function (number, quantity_selected) {
+    await db.all("UPDATE parts SET quantity = quantity - ? WHERE number = ?", [quantity_selected, number], (err, rows) => {
+      console.log(`Subtracted ${quantity_selected} from part ID ${number}`)
+    })
+  },
+  getAllRows: (result) => {
+    db.all(`SELECT * FROM feeBracket`, [], (err,rows) => {
+      if (err) return console.error(err.message);
+      result(rows);
+    });
+  },
+  calculateSH: function (weight, callback) {
+    db.get('SELECT price FROM feeBracket WHERE lowerBnd < ? AND upperBnd > ?', [weight, weight], (err, rows) => {
+      if (err) console.error(err.message)
+      else if (rows) callback(rows.price || 0)
+      else callback(0)
+    })
+  }
 }

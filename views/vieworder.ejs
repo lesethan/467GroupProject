@@ -181,19 +181,19 @@ background-color: #f3f3f3;
 <nav>
 <div class="menu">
 <div class="logo">
-<a href="index.html"><img style="width: 50%;" src="img/motor-medic-logo.png"></a>
+<a href="index.html"><img style="width: 50%;" src="../img/motor-medic-logo.png"></a>
 </div>
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="/catalog">Catalog</a></li>
-<li><a href="/cart">Cart</a></li>
-<li><a href="/workstation">Workstation</a></li>
-<li><a href="/receiving">Receiving</a></li>
-<li><a href="/admin">Admin</a></li>
+<li><a href="../">Home</a></li>
+<li><a href="../catalog">Catalog</a></li>
+<li><a href="../cart">Cart</a></li>
+<li><a href="../workstation">Workstation</a></li>
+<li><a href="../receiving">Receiving</a></li>
+<li><a href="../adminl">Admin</a></li>
 </ul>
 </div>
 </nav>
-<div style="width: 100%; height: 20vh; background-image: url(img/audi-r8.jpg)"></div>
+<div style="width: 100%; height: 20vh; background-image: url(../img/audi-r8.jpg)"></div>
 <div class="center">
 <div class="btns">
     </div><br>
@@ -201,8 +201,8 @@ background-color: #f3f3f3;
 <!--START OF TABLE HTML-->
 
 </body>
-  <h1 style="text-align: center;">Order Summary</h1>
-  <h2 style="text-align: center;">You will receive an email when your order has been shipped</h2>
+<h1 style="text-align: center;">Order Packing List</h1>
+<h2 style="text-align: center;"><a href="/workstation" >Back to Workstation</a></h2>
 
 <table class="styled-table" style="width: 100%;">
 <thead>
@@ -229,7 +229,7 @@ background-color: #f3f3f3;
     </tr>
 <% }) %>
 
-<h2 style="text-align: center;">Subtotal: $<%= subtotal.toFixed(2) %> (+ <%= sh %> S&H)</h2>
+<h2 style="text-align: center;">Subtotal: $<%= subtotal + sh %></h2>
 <!--END OF TABLE HTML-->
 </tbody>
 </table>

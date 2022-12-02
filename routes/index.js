@@ -1,11 +1,50 @@
 const express = require("express");
 const { processPayment } = require("../database/credit");
-const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showAllOrders, completeOrder } = require("../database/innerdb");
+const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showAllOrders, completeOrder, convertCartItemsToOrder, destroyCart, subtractItem, addInventory, removeInventory, updateInventory, getAllRows, calculateSH } = require("../database/innerdb");
 const router = express.Router();
+const nodemailer = require('nodemailer')
 const parts = require("../database/innerdb"); // Used to call functions using the DB
 
-// let session; // Used to hold session data
-// let Cart = require('../database/cart')
+// Emailer configuration
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'motormedic467@gmail.com',
+    pass: 'lktrzjjtvwnxxray'
+  }
+})
+
+async function emailConfirmation(email, sessionID) {
+  let emailbody = `Your order ID is ${sessionID} and has been submitted`
+
+  let mailOptions = {
+    from: 'motormedic467@yahoo.com',
+    to: email,
+    subject: 'Motor Medic Order Confirmation',
+    text: emailbody
+  }
+
+  await transporter.sendMail(mailOptions, (err, info) => {
+    if (err) console.log(err.message)
+    console.log(`Confirmation email sent to ${mailOptions.to}`)
+  })
+}
+
+async function emailShipped(email, sessionID) {
+  let emailbody = `Your Order ID ${sessionID} has been shipped`
+
+  let mailOptions = {
+    from: 'motormedic467@yahoo.com',
+    to: email,
+    subject: 'Your Motor Medic Order has been shipped',
+    text: emailbody
+  }
+
+  await transporter.sendMail(mailOptions, (err, info) => {
+    if (err) console.log(err.message)
+    console.log(`Shipping email sent to ${mailOptions.to}`)
+  })
+}
 
 // Homepage Route
 router.get("/", (req, res) => {
@@ -38,7 +77,7 @@ router.post('/addtocart/:number', (req, res) => {
 }) 
 
 // "Remove from Cart" POST Route on the Catalog Page
-router.post('/removefromcart/:number', (req, res) => {
+router.get('/removefromcart/:number', (req, res) => {
   removeFromCart(req.session.id, req.params.number)
   res.redirect("/cart");
 })
@@ -66,7 +105,13 @@ router.get("/cart", (req, res) => {
       if (!result) {
         console.log("No cart");
       } else {
-        res.render("cart", { all: result})
+        let weight = 0;
+        result.forEach((item) => weight = (weight + item.weight) * item.quantity_selected )
+        console.log(weight)
+        calculateSH(weight, (sh) => {
+          res.render("cart", { all: result, sh})
+        })
+        
       }
     })
   } catch (error) {
@@ -84,6 +129,7 @@ router.post("/checkout/:price", (req, res) => {
   let ccexp = req.body.expdate;
   let price = req.params.price
   let authNum;
+  let id = req.session.id
 
   if(!name || !email || !address || !ccnumber || !ccexp) {
     res.redirect("/cart")
@@ -91,38 +137,70 @@ router.post("/checkout/:price", (req, res) => {
 
   processPayment(name, email, address, ccnumber, ccexp, price).then((result) => {
     authNum = result.authorization
+    
     console.log(result)
     if (authNum == null) {
       console.log("Error processing payment")
       res.redirect("/cart")
     } else {
-      generateOrder(req.session.id, name, email, ccnumber, price);
-      res.redirect("/ordersubmit")
+      generateOrder(req.session.id, name, email, ccnumber, price)
+      convertCartItemsToOrder(req.session.id)
+
+      emailConfirmation(email, id).then(() => {
+        destroyCart(req.session.id)
+        res.redirect("/ordersubmit")
+      })
     }
   })
 })
 
-// Doesn't work properly yet
+// Landing Page for Order Submission
 router.get("/ordersubmit", (req, res) => {
-  showOrder(req.session.id).then((order) => {
-    console.log(order)
-    getCart(order.session_id).then((cart) => {
-      console.log(cart)
-      res.render("ordersubmit", { order, cart })
+  showOrder(req.session.id).then((items) => {
+    items.forEach((item) => subtractItem(item.number, item.quantity_selected))
+    let weight = 0;
+    items.forEach((item) => weight = (weight + item.weight) * item.quantity_selected )
+    calculateSH(weight, (sh) => {
+      res.render("ordersubmit", { items, sh })
     })
-    
+
   })
 })
 
+// Workstation
 router.get("/workstation", (req, res) => {
   parts.showAllOrders((orders) => {
     res.render("workstation", { orders })
   })
 })
 
-router.post("/completeorder/:id", (req, res) => {
+router.get("/vieworder/:id", (req, res) => {
+  showOrder(req.params.id).then((items) => {
+    let weight = 0;
+    items.forEach((item) => weight = (weight + item.weight) * item.quantity_selected )
+    calculateSH(weight, (sh) => {
+      res.render("vieworder", { items, sh })
+    })
+    
+  })
+})
+
+router.post("/vieworder/:id", (req, res) => {
+  showOrder(req.params.id).then((items) => {
+    let weight = 0;
+    items.forEach((item) => weight = (weight + item.weight) * item.quantity_selected )
+    calculateSH(weight, (sh) => {
+      res.render("vieworder", { items, sh })
+    })
+    
+  })
+})
+
+router.post("/completeorder/:id/:email", (req, res) => {
   completeOrder(req.params.id);
-  res.redirect("/workstation")
+  emailShipped(req.params.email, req.params.id).then(() => {
+    res.redirect("/workstation")
+  })
 })
 
 // Asocciate Home Screen GET Route
@@ -142,10 +220,24 @@ router.get('/receiving', (req, res) => {
   }
 });
 
-// // Login page GET Route
-// router.get("/loginuser", (req, res) => {
-  
-// })
+// Admin page route
+router.get('/admin', (req, res) => {
+  try {
+    getAllRows((list) => {
+      console.log("LOADING BOUNDS");
+      console.log("Testing SH:")
+      
+      calculateSH(5, (x) => { 
+        console.log(x)
+        res.render('admin', { all: list, x}); 
+      })
+      
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+});
 
 // Backend Data Testing Route
 router.get("/test", (req, res) => {

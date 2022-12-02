@@ -184,18 +184,17 @@ background-color: #f3f3f3;
 <a href="index.html"><img style="width: 50%;" src="img/motor-medic-logo.png"></a>
 </div>
 <ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="catalog.html">Catalog</a></li>
-<li><a href="cart.html">Cart</a></li>
-<li><a href="workstation.html">Workstation</a></li>
-<li><a href="receiving.html">Receiving</a></li>
-<li><a href="admin.html">Admin</a></li>
+<li><a href="/">Home</a></li>
+<li><a href="/catalog">Catalog</a></li>
+<li><a href="/cart">Cart</a></li>
+<li><a href="/workstation">Workstation</a></li>
+<li><a href="/receiving">Receiving</a></li>
+<li><a href="/admin">Admin</a></li>
 </ul>
 </div>
 </nav>
 <div style="width: 100%; height: 20vh; background-image: url(img/audi-r8.jpg)"></div>
 <div class="center">
-<div style="padding-top: 20px;" class="title">All Active Orders</div>
 <div class="btns">
     </div><br>
 </div>
@@ -208,9 +207,10 @@ background-color: #f3f3f3;
 <th>Order #</th>
 <th>Name</th>
 <th>Email</th>
-<th>Card</th>
+<th>Date</th>
 <th>Subtotal</th>
 <th>Complete Order</th>
+
 </tr>
 </thead>
 <tbody>
@@ -220,12 +220,18 @@ background-color: #f3f3f3;
         <td style=" text-align: center;"><%= order.session_id %></td>
         <td style=" text-align: center;"><%= order.name %></td>
         <td style=" text-align: center;"><%= order.email %></td>
-        <td style=" text-align: center;"><%= order.ccard %></td>
+        <td style=" text-align: center;"><%= order.date %></td>
         <td style=" text-align: center;">$<%= order.subtotal %></td>
         
-        <form action="/completeorder/<%= order.session_id %>" method="post">
-        <td style=" text-align: center;"><button type = "submit" name = "submit">Complete</button></td>
+        <form action="/completeorder/<%= order.session_id %>/<%= order.email %>" method="post">
+            
+            <td style=" text-align: center;">
+                <a href="/vieworder/<%= order.session_id %>">Items  </a>
+                <button type = "submit" name = "submit">Complete</button>
+            </td>
         </form>
+
+        
         
         </tr>
 <% }) %>

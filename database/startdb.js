@@ -64,11 +64,24 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 // sql = `INSERT INTO users (username, password) VALUES (?, ?)`
 // db.run(sql, ["admin", "admin"])
 
-// sql = `CREATE TABLE orders (oid INTEGER AUTO INCREMENT, session_id, name, email, ccard, subtotal, authorized, shipped)`
+// sql = `CREATE TABLE orders (oid INTEGER AUTO INCREMENT, session_id, name, email, ccard, subtotal, authorized, shipped, date)`
 // db.run(sql)
 
-sql = `SELECT * FROM orders`
-db.all(sql, [], (err, rows) => {
-        if (err) return console.error(err);
-        rows.forEach((row) => console.log(row))
-    })
+// sql = `DROP TABLE orders`
+// db.run(sql)
+// sql = `SELECT * FROM orderitems`
+// db.all(sql, [], (err, rows) => {
+//         if (err) return console.error(err);
+//         console.log(rows)
+//         rows.forEach((row) => console.log(row))
+//     })
+
+// sql = `CREATE TABLE "orderitems" (order_id INTEGER PRIMARY KEY, number, quantity_selected, session_id)`
+
+// db.run(sql);
+
+// sql = `CREATE TABLE IF NOT EXISTS "feeBracket" (key INTEGER PRIMARY KEY AUTOINCREMENT, lowerBnd INT, upperBnd INT, price REAL)`
+// db.run(sql);
+
+sql = `INSERT INTO feeBracket (lowerBnd, upperBnd, price) VALUES (?, ?, ?)`
+db.run(sql, [7, 12, 5.4])

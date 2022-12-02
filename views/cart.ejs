@@ -249,7 +249,7 @@
           <li><a href="/">Home</a></li>
           <li><a href="/catalog">Catalog</a></li>
           <li><a href="/cart">Cart</a></li>
-          <li><a href="#">About Us</a></li>
+          <li><a href="/workstation">Workstation</a></li>
           <li><a href="/associate">Associates</a></li>
         </ul>
       </div>
@@ -266,11 +266,13 @@
         <div class="col-75">
           <div class="container">
             <% let totalPrice = 0; %>
+            <% let subtotal = 0; %>
             <% all.forEach((part) => { %>
               <% let newPrice = part.price * part.quantity_selected %>
               <% totalPrice = totalPrice + newPrice %>
+              <% subtotal = totalPrice + sh %>
             <% }) %> 
-            <form action="/checkout/<%= totalPrice.toFixed(2) %>" method="post">
+            <form action="/checkout/<%= subtotal.toFixed(2) %>" method="post">
               <div class="row">
                 <div class="col-50">
                   <h3>Billing Address</h3>
@@ -374,9 +376,12 @@
              <% all.forEach((part) => { %> <% let
             newPrice = part.price * part.quantity_selected %> 
             <p>
-              <%= part.description %> (<%= part.quantity_selected %>)<span
+              <%= part.description %> (<%= part.quantity_selected %>)
+              <a href="/removefromcart/<%= part.number %>">Remove</a><span
                 class="price"
-                >$<%= newPrice.toFixed(2) %></span
+                >$<%= newPrice.toFixed(2) %>
+                
+                </span
               >
             </p>
             <% }) %>
@@ -384,7 +389,7 @@
             <p>
               Total
               <span class="price" style="color: black"
-                ><b><%= totalPrice.toFixed(2) %></b></span
+                ><b><%= totalPrice.toFixed(2) %> + <%= sh %> (S&H)</b></span
               >
             </p>
           </div>
