@@ -15,7 +15,8 @@ const router = express.Router();
 const parts = require('../database/innerdb'); // Used to call functions using the DB
 
 const {
-  getAllRows
+  getAllRows,
+  updateTable,
 } = require('../database/startdb');
 const feeBrackets = require('../database/startdb');
 
@@ -72,6 +73,13 @@ router.post('/updateInventory/:number', (req, res) => {
   res.redirect('/receiving');
 });
 
+//update fee charges database
+router.post('/updateRows/', (req, res) => {
+  console.log("in");
+  for(i = 0; i<lB.length; i++ ){
+    console.log("inside: ");
+  }
+});
 // Cart page GET Route
 router.get('/cart', (req, res) => {
   try {
@@ -116,6 +124,7 @@ router.get('/admin', (req, res) => {
     process.exit(1);
   }
 });
+
 
 // Login page GET Route
 router.get('/loginuser', (req, res) => {});

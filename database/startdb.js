@@ -16,6 +16,17 @@ getAllRows: async (result) => {
     result(rows);
   });
 },
+
+updateTable: function (key, lB, uB, p){
+  for(i = 0; i < lB.length; i ++){  
+  db.run('UPDATE feeBracket SET lowerBnd = ?, SET upperBnd = ?, SET price WHERE key = ?',
+          [lB[i], uB[i], p[i],key[i]],
+          (err, rows) => {
+            if (err) return console.error(err.message);
+          }
+  );
+  }
+}
 };
           
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/2337335750.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css" />
-         
   <script>  
       var lB = [];
       var uB = [];
       var p = [];
+
       const data3 = [
                       ["Weight Range","Price"] 
                   ];
@@ -50,6 +51,25 @@
           data3[j] = [lB[j-1] + " to " + uB[j-1], "$" + p[j-1]];
           j++;
         };
+
+        let x = lB.length + 1;
+        data3.splice(x,10);
+        console.log("DATA AFTER BLD DAT: " + data3);
+      }
+
+      function removeRow_(rowNum) {
+          uB.splice(rowNum,1);
+          lB.splice(rowNum,1);
+          p.splice(rowNum, 1);
+        if(rowNum==0) {
+          lB[rowNum] = 0;
+          
+        } else {
+          uB[rowNum-1] = lB[rowNum];
+        }
+         console.log(lB,uB,p);
+         bldDat();
+        document.getElementById("my-div").innerHTML = createTable(data3);
       }
       
       function getCells(data, type) {
@@ -58,18 +78,14 @@
       
 
       function createBody(data) {
-        return data.map(row => `<tr>${getCells(row, 'td')}<td class= "removeRow"><button id="button" style="background: transparent; border: none"><i class="fa-solid fa-trash" style="font-size: 22px;"></i></button></td></tr>`).join('');
+        let i =  0;
+        return data.map(row => `<tr class= "row-${i}" >${getCells(row, 'td')}<td class= "removeRow"><button onclick="removeRow_(${i++});"id="button" style="background: transparent; border: none"><i class="fa-solid fa-trash" style="font-size: 22px;"></i></button></td></tr>`).join('');
       }
 
       function createTable(data) {
 
-        // Destructure the headings (first row) from
-        // all the rows
         const [headings, ...rows] = data;
 
-        // Return some HTML that uses `getCells` to create
-        // some headings, but also to create the rows
-        // in the tbody.
         return `
           <table class = "table">
             <thead style="color: #23395d;">${getCells(headings, 'th')}</thead>
@@ -125,6 +141,7 @@
       uB.sort((a, b) => a - b);  
       bldDat();
       document.getElementById("my-div").innerHTML = createTable(data3);
+      updateData();
       }
     
     </script>
@@ -238,19 +255,30 @@
           <button id="button" style="background: transparent; border: none"><i class="fa-regular fa-plus" style="font-size: 24px;"></i></button>
         </div>
       </div>
-      <div class= "table-container" id = "my-div"></div>
-      
+      <div class= "table-container" id = "my-div"></div> 
+        <form action="/admin/updateRows" method="POST">
+          <script>
+            for(i = 0; i < lB.length; i++){ </script>
+              <p name="key" style="visibility: hidden;"><script>lb.length;</script></p>
+              <p name="lB" style="visibility: hidden;"></p>
+              <p name="uB" style="visibility: hidden;"> </p>
+              <p name="p" style="visibility: hidden;"></p>
+           <script> }
+          </script>
+          //<button type="submit">Save!</button> 
+          </form>
       <div id="my-div2">
         <% all.forEach((feeBracket) =>  { %>
           <div class="data" id= "data"> 
-            <h1 id="key" style="visibility: hidden;"><%= feeBracket.key  %> </h1>
-            <h2 id="lB" style="visibility: hidden;"><%= feeBracket.lowerBnd %> </h2>
-            <h3 id="uB" style="visibility: hidden;"><%= feeBracket.upperBnd %> </h3>
-            <h4 id="p" style="visibility:  hidden;"><%=  feeBracket.price %> </h4>
+            <h1 id="key" style="font-size:1px; visibility: hidden;"><%= feeBracket.key  %> </h1>
+            <h2 id="lB" style="font-size:1px; visibility: hidden;"><%= feeBracket.lowerBnd %> </h2>
+            <h3 id="uB" style="font-size:1px; visibility: hidden;"><%= feeBracket.upperBnd %> </h3>
+            <h4 id="p" style="font-size:1px; visibility:  hidden;"><%=  feeBracket.price %> </h4>
           </div>
-        <%  }) %>
+        <%  })%>
       </div>
-      <script> 
+      
+      <script>
         document.getElementById("button").addEventListener("click", weightBracket);		
         let myDiv = document.getElementById("my-div");
         getTable_();
