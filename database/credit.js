@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('axios');
 
 module.exports = {
     processPayment: function (name, email, addr, ccnum, ccexp, price) {
