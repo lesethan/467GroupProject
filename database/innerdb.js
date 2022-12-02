@@ -8,6 +8,8 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
     if (err) return console.error(err);
 });
 
+
+
 module.exports = {
     // Generates rows containing every Part in the database
     getAllItems: async (result) => {
@@ -16,6 +18,14 @@ module.exports = {
             result(rows);
         })
       },
+
+    getAllOrders: async (result) => {
+      await db.all("SELECT * FROM orders", [], (err,rows) => {
+        if (err) return console.error(err.message);
+        console.log("ORDERS : "+ rows);
+        result(rows);
+      })
+    },
     // Checks if a cart already exists for a user's session
     cartExists: function (sessionID)  {
         return new Promise((resolve, reject) => {

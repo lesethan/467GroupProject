@@ -1,6 +1,6 @@
 const express = require("express");
 const { processPayment } = require("../database/credit");
-const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showUnfilledOrders, completeOrder, convertCartItemsToOrder, destroyCart, subtractItem, addInventory, removeInventory, updateInventory, getAllRows, calculateSH } = require("../database/innerdb");
+const { cartExists, addToCart, createCart, getCart, removeFromCart, generateOrder, showOrder, showUnfilledOrders, completeOrder, convertCartItemsToOrder, destroyCart, subtractItem, addInventory, removeInventory, updateInventory, getAllRows, calculateSH, getAllOrders } = require("../database/innerdb");
 const router = express.Router();
 const nodemailer = require('nodemailer')
 const parts = require("../database/innerdb"); // Used to call functions using the DB
@@ -226,13 +226,15 @@ router.get('/admin', (req, res) => {
     getAllRows((list) => {
       console.log("LOADING BOUNDS");
       console.log("Testing SH:")
-      
-      calculateSH(5, (x) => { 
-        console.log(x)
-        res.render('admin', { all: list, x}); 
+      getAllOrders((orders_) => {
+        console.log("LOADING ORDERS: " );
+     
+        calculateSH(5, (x) => { 
+          console.log(x)
+          res.render('admin', { all: list, x, orders_}); 
       })
-      
-    });
+    })
+  });
   } catch (error) {
     console.log(error);
     process.exit(1);

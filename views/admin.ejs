@@ -122,6 +122,7 @@
 
     <style>
       .container {
+        max-width: 1600px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -158,7 +159,7 @@
         text-align: center;
         font-size: 20px;
       }
-      tr:hover {
+      .table tr:hover {
         transform: scale(1.02);
       }
       .table td {
@@ -171,6 +172,37 @@
         flex-direction: column;
         align-items: center;
       }
+      .order-container {
+        margin-top: 35px;
+      }
+
+      .order-container h1 {
+        color: #23395d;
+        font-size: 25px;
+        padding-bottom: 7px;
+      }
+
+      .order-container table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 1000px;
+      }
+      .order-container table th{
+        color: #23395d;
+        padding-left: 8px;
+        text-align: left;
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+      .order-container table td{
+        padding-left: 8px;
+        text-align: left;
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+
+
       header {
         background-color: white;
       }
@@ -184,6 +216,48 @@
       .removeRow i {
         color: #23395d;
       }
+
+
+      .dropbtn {
+        color: #23395d;
+        padding: 5px 10px 5px 10px;
+        margin-bottom: 10px;
+        font-size: 17px;
+        border: none;
+      }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      .btn2 {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+
+      .btn2 button {
+        width: 100%;
+      }
+
+      /* Links inside the dropdown */
+      .btn2 a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      /* Change color of dropdown links on hover */
+      .btn2 a:hover {background-color: #ddd;}
+
+      /* Show the dropdown menu on hover */
+      .dropdown:hover .btn2 {display: block;}
+
+      /* Change the background color of the dropdown button when the dropdown content is shown */
+      .dropdown:hover .dropbtn {background-color: #3e8e41;}
     </style>
     <title>ADMIN | Motor Medic</title>
   </head>
@@ -220,7 +294,69 @@
         </div>
       </div>
       <div class= "table-container" id = "my-div"></div>
+      <div class="order-container">
+        <h1>Orders :</h1>
+        <script>
+          function viewAuthorized() {
+            console.log("CLICKED VIEW AUTHORIZED");
+            const orderContain = document.getElementById('my-div3');
+            const order_= document.querySelectorAll('.authorized');
+            const authorized_ = orderContain.getElementsByTagName('p');
 
+            for( let i = 0; i < authorized_.length; i++ ){
+            let authorizedOrd = order_[i].getElementsByTagName('p')[0];
+                if(authorizedOrd) {  
+
+                let text = authorizedOrd.textContent || authorizedOrd.innerHTML;
+                console.log("IN AUTHORIZEDORD: "  + text)
+                if(text === "Not Authorized") {
+                  order_[i].style.display = ' ';
+                } else {
+                  order_[i].style.display = 'none';
+                }
+              }
+            }
+          }
+        </script>
+        <div class="dropdown">
+          <button class="dropbtn">Filter</button>
+          <div class="btn2">
+            <button onclick="viewAuthorized();">View Authorized</button></form>
+            <button onclick="viewNotAuthorized();">View Not Authorized</button></form>
+            <form onclick="viewShipped();"><button type="submit">View Shipped</button></form>
+            <button onclick="viewNotShipped();" >View Not Shipped</button></form>
+          </div>
+        </div>
+        
+        <table id = "myTable">
+          <thead>
+            <tr>
+              <th>Date: </th>
+              <th>Order ID:</th>
+              <th>Customer:</th>
+              <th>Customer Email:</th>
+              <th>Order Subtotal:</th>
+              <th>Authorized?</th>
+              <th>Shipped?</th>
+            </tr>
+          </thead>
+          <div class="my-div3" id= "my-div3">
+          <% orders_.forEach((orders) => { %>
+          <div class="ordrs" id="ordrs">
+           <tr> 
+          <td ><%= orders.date  %> </td>
+          <td ><%= orders.oid %> </td>
+          <td ><%= orders.name  %> </td>
+          <td><%= orders.email  %> </td>
+          <td><%= orders.subtotal  %> </td>
+          <td class="authorized"><p><%= orders.authorized  %> <p></td>
+          <td><%= orders.shipped %> </td>
+        </tr>
+        </div>
+          <% }) %>
+        </div>
+        </table> 
+      </div>
       <div id="my-div2">
         <% all.forEach((feeBracket) =>  { %>
           <div class="data" id= "data"> 

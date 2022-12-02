@@ -84,4 +84,7 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 // db.run(sql);
 
 sql = `INSERT INTO feeBracket (lowerBnd, upperBnd, price) VALUES (?, ?, ?)`
-db.run(sql, [7, 12, 5.4])
+db.run(sql, [7, 12, 5.4]);
+
+sql = `INSERT INTO orders (name, email, ccard, subtotal, authorized, shipped, date) VALUES ("Luis Aca", "1894914@students.niu.edu", 309547308, "yes", "yes", "08/27/2022")`
+db.run(sql);
