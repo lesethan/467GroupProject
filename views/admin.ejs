@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/2337335750.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css" />
+         
+  <script>  
+      var lB = [];
+      var uB = [];
+      var p = [];
+      const data3 = [
+                      ["Weight Range","Price"] 
+                  ];
+
+      function getTable_ () {
+        var bracketContain = document.getElementById('my-div2');
+        var bracket = document.querySelectorAll('.data');
+        var key = bracketContain.getElementsByTagName('h1');
+        for (var u = 0; u < key.length; u++ ){ 
+          let match = bracket[u].getElementsByTagName('h1')[0];
+          let lowerBound = bracket[u].getElementsByTagName('h2')[0];
+          let upperBound = bracket[u].getElementsByTagName('h3')[0];
+          let price = bracket[u].getElementsByTagName('h4')[0];
+        if (match) {
+          let textvalue = match.textContent || match.innerHTML;
+          let lowerTxt = lowerBound.textContent || lowerBound.innerHTML;
+          let upperTxt = upperBound.textContent || upperBound.innerHTML;
+          let priceTxt = price.textContent || price.innerHTML;
+          let lower = parseInt(lowerTxt);
+          let upper = parseInt(upperTxt,10);
+          let pri = parseFloat(priceTxt);
+          console.log("lower bound: " + lower);
+          console.log("upper bound: " + upper);
+          console.log("price: " + pri);
+          lB[u] = lower;
+          uB[u] = upper;
+          p[u] = pri;
+        }
+        console.log(uB, lB, p);
+      }
+        
+      }
+
+      function bldDat() {
+        let j = 1;
+        for (let i = lB.length; i != 0; i--) {
+          data3[j] = [lB[j-1] + " to " + uB[j-1], "$" + p[j-1]];
+          j++;
+        };
+      }
+      
+      function getCells(data, type) {
+        return data.map(cell => `<${type} class = "cell">${cell}</${type}>`).join('');
+      }
+      
+
+      function createBody(data) {
+        return data.map(row => `<tr>${getCells(row, 'td')}<td class= "removeRow"><button id="button" style="background: transparent; border: none"><i class="fa-solid fa-trash" style="font-size: 22px;"></i></button></td></tr>`).join('');
+      }
+
+      function createTable(data) {
+
+        // Destructure the headings (first row) from
+        // all the rows
+        const [headings, ...rows] = data;
+
+        // Return some HTML that uses `getCells` to create
+        // some headings, but also to create the rows
+        // in the tbody.
+        return `
+          <table class = "table">
+            <thead style="color: #23395d;">${getCells(headings, 'th')}</thead>
+            <tbody>${createBody(rows)}</tbody>
+          </table>`;
+      }
+      	
+      function weightBracket() {
+        const upperBound = document.getElementById('upperBound').value;
+        const price = document.getElementById('price').value;
+        let uprBnd = parseInt(upperBound,10);
+        let pri = parseFloat(price);
+
+        let i = uB.length;
+
+        for (let a = 0; a < i; a++ ) {
+          if (uprBnd === uB[a]) {
+            console.log(uprBnd);
+            console.log(uB[a]);
+            console.log(pri);
+            console.log(p[a]);
+            p[a] = pri;
+            lB.sort((a, b) => a - b);
+            uB.sort((a, b) => a - b);
+            bldDat();
+        		document.getElementById("my-div").innerHTML = createTable(data3);
+            return;
+          }
+         }
+
+        if (uprBnd > uB[i - 1]) {
+          lB[i] = uB[i - 1];
+          console.log("1:  " + lB);
+          uB[i] = uprBnd;
+          p[i] = pri;
+        } else if (uprBnd < uB[i - 1]) {  
+          lB[i] = uprBnd;
+          uB[i] = uprBnd;
+          p[i] = pri;
+          lB.sort((a, b) => a - b);
+          uB.sort((a, b) => a - b); 
+          let index = uB.indexOf(uprBnd);
+          p[i] = p[index];
+          p[index] = pri;
+          console.log("2: "+ lB);
+        } else {
+          return;
+        } 
+       console.log(uB);
+       console.log(lB);
+       console.log(p);
+      lB.sort((a, b) => a - b);
+      uB.sort((a, b) => a - b);  
+      bldDat();
+      document.getElementById("my-div").innerHTML = createTable(data3);
+      }
+    
+    </script>
+
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn-cnt {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+      }
+
+      .btn {
+        height: 75px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .btn input {
+        width: 275px;
+        margin-top: 2px;
+      }
+
+      .btn button {
+        width: 35px;
+        margin-left: 10px;
+        color: #23395d;
+      }
+
+      .btn button i {
+        padding: 5px 8px 5px 8px;
+        cursor: pointer;
+      }
+
+      .btn button i:hover {
+        background-color: #23395d;
+        color: white;
+      }
+      .table {
+        text-align: center;
+        font-size: 20px;
+      }
+
+      tr:hover {
+        transform: scale(1.02);
+      }
+
+      .table td {
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .table-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      header {
+        background-color: white;
+      }
+      .cell {
+        width: 200px;
+      }
+
+      .removeRow {
+        width: 90px;
+        margin-right: 50px;
+      }
+
+      .removeRow i {
+        color: #23395d;
+      }
+    </style>
+    <title>ADMIN | Motor Medic</title>
+  </head>
+  <body>
+    <header>
+    <div class="emp-nav">
+      <nav>
+        <div class="menu">
+          <div class="logo">
+            <a href="/"
+              ><img
+                style="width: 50%"
+                src="img/motor-medic-logo.png"
+                alt="Motor Medic"
+            /></a>
+          </div>
+          <ul>
+            <li><a href="/associate">Home</a></li>
+            <li><a href="#">Workstation</a></li>
+            <li><a href="/receiving">Receiving</a></li>
+            <li><a href="/admin">Admin</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+    <div class="container">
+      <div class="btn-cnt">
+        <div class="btn">
+          <input type="text" name="upperBound" id="upperBound" placeholder="Upper Bound"/>
+          <input type="text" name="price" id="price" placeholder="Price" style="margin-left: 20px;"/>
+          <button id="button" style="background: transparent; border: none"><i class="fa-regular fa-plus" style="font-size: 24px;"></i></button>
+        </div>
+      </div>
+      <div class= "table-container" id = "my-div"></div>
+      
+      <div id="my-div2">
+        <% all.forEach((feeBracket) =>  { %>
+          <div class="data" id= "data"> 
+            <h1 id="key" style="visibility: hidden;"><%= feeBracket.key  %> </h1>
+            <h2 id="lB" style="visibility: hidden;"><%= feeBracket.lowerBnd %> </h2>
+            <h3 id="uB" style="visibility: hidden;"><%= feeBracket.upperBnd %> </h3>
+            <h4 id="p" style="visibility:  hidden;"><%=  feeBracket.price %> </h4>
+          </div>
+        <%  }) %>
+      </div>
+      <script> 
+        document.getElementById("button").addEventListener("click", weightBracket);		
+        let myDiv = document.getElementById("my-div");
+        getTable_();
+        bldDat();
+        myDiv.innerHTML = createTable(data3);
+      </script>
+    </div>
+
+    <main>
+      <div class="main-container"></div>
+    </main>
+  </body>
+</html>

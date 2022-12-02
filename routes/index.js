@@ -14,6 +14,11 @@ const {
 const router = express.Router();
 const parts = require('../database/innerdb'); // Used to call functions using the DB
 
+const {
+  getAllRows
+} = require('../database/startdb');
+const feeBrackets = require('../database/startdb');
+
 // let session; // Used to hold session data
 // let Cart = require('../database/cart')
 
@@ -83,16 +88,28 @@ router.get('/cart', (req, res) => {
   }
 });
 
-// Asocciate Home Screen GET Route
+// Associate Home Screen GET Route
 router.get('/associate', (req, res) => {
   res.render('associate');
 });
 
-// Receiving (Employee) GET Route
+// Receiving (Associate) GET Route
 router.get('/receiving', (req, res) => {
   try {
     parts.getAllItems((list) => {
       res.render('receiving', { all: list });
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+});
+
+router.get('/admin', (req, res) => {
+  try {
+    feeBrackets.getAllRows((list) => {
+      console.log("LOADING BOUNDS");
+      res.render('admin', { all: list});
     });
   } catch (error) {
     console.log(error);

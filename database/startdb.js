@@ -1,42 +1,23 @@
 const sqlite3 = require('sqlite3').verbose();
+const { get } = require('http');
 const path = require('path');
-const legacyparts = require('./legacydb');
-const dbPath = path.resolve(__dirname, 'innerdb.db');
-let sql;
+const dbPath = path.resolve(__dirname, 'startdb.db');
 
 // Connect to DB
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
   if (err) return console.error(err);
 });
 
-// Reset all tables
-db.run('DROP TABLE "parts"');
-
-// Create new parts table now with a quantity field
-sql = `CREATE TABLE "parts" (number, description, price, weight, quantity, pictureURL)`;
-db.run(sql);
-
-// Insert data into new parts table from the MySQL database
-sql = `INSERT INTO "parts" (number, description, price, weight, quantity, pictureURL) VALUES (?, ?, ?, ?, ?, ?)`;
-parts.getAllItems((parts) => {
-  parts.forEach((part) => {
-    let quantity = Math.floor(Math.random() * (500 - 100) + 100); // Generate random value between 100 and 500 for quantity
-    db.run(
-      sql,
-      [
-        part.number,
-        part.description,
-        part.price,
-        part.weight,
-        quantity,
-        part.pictureURL,
-      ],
-      (err) => {
-        if (err) return console.error(err.message);
-      }
-    );
+module.exports = {
+getAllRows: async (result) => {
+  db.all(`SELECT * FROM feeBracket`, [], (err,rows) => {
+    if (err) return console.error(err.message);
+    console.log(rows);
+    result(rows);
   });
-});
+},
+};
+          
 
 // // Test Query
 // sql = `SELECT * FROM "parts" ORDER BY number`;
