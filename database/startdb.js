@@ -84,4 +84,4 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 // db.run(sql);
 
 sql = `INSERT INTO feeBracket (lowerBnd, upperBnd, price) VALUES (?, ?, ?)`
-db.run(sql, [7, 12, 5.4])
+db.run(sql, [100, 500, 20])

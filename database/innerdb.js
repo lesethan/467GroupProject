@@ -207,4 +207,11 @@ module.exports = {
         result(rows);
     }) 
 },
+getAllOrders: async (result) => {
+  await db.all("SELECT * FROM orders", [], (err,rows) => {
+    if (err) return console.error(err.message);
+    console.log("ORDERS : "+ rows);
+    result(rows);
+  })
+},
 }
